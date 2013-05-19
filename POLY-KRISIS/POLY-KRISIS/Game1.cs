@@ -23,7 +23,7 @@ namespace poly_krisis
         public Game1(){
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-			camera = new DollyCam();
+
 
             //Set some basic stuff for my game
             graphics.IsFullScreen = false; //set it to full screen no
@@ -38,19 +38,18 @@ namespace poly_krisis
         /// and initialize them as well.
         protected override void Initialize(){
             world = Matrix.CreateTranslation(0f, 0f, 0f);
-
-			camera.Position = new Vector3(0.0f, 0.0f, 10.0f);
-			camera.Target = new Vector3(0.0f, 0.0f, 0.0f);
-			camera.UpdateView();
-			camera.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 
-				(float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight, 
+			CameraCue camCue = new CameraCue(new Vector3(0, 1, 50), new Vector3(0, 0, 0));
+			Matrix proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45),
+				(float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight,
 				0.1f, 100.0f);
- 
-            //Rotate my cube model
-            world_rotated = world;
-            world_rotated = Matrix.CreateRotationY(MathHelper.ToRadians(45));
-            world_rotated *= Matrix.CreateRotationX(MathHelper.ToRadians(45));
-            world_rotated *= Matrix.CreateRotationZ(MathHelper.ToRadians(45));
+
+			camera = new DollyCam(camCue, proj);
+
+			//Set a location to move cam to
+			camCue = new CameraCue(new Vector3(0, 10, 0), new Vector3(0, 0, 0));
+			camera.TransitionTo(camCue, 0.5f);
+
+			world *= Matrix.CreateRotationX(-(float)Math.PI / 2.0f) * Matrix.CreateScale(new Vector3(0.5f, 0.5f, 0.5f));
             
             base.Initialize();
         }
@@ -80,6 +79,7 @@ namespace poly_krisis
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
             // TODO: Add your update logic here
+			camera.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -90,7 +90,8 @@ namespace poly_krisis
             GraphicsDevice.Clear(Color.Black);
 
             //Draw my test cube
-            DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated);
+			//DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated);
+			DrawModel(Content.Load<Model>("Models/Level/level1"), world);
             
 
             base.Draw(gameTime);
@@ -106,13 +107,13 @@ namespace poly_krisis
                 foreach (BasicEffect effect in mesh.Effects){
                     
                     //Lighting stuffs
-                    effect.EnableDefaultLighting();
-                    effect.LightingEnabled = true; // Turn on the lighting subsystem.
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
-                    effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
-                    effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
-                    effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
-                    effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird.
+					//effect.EnableDefaultLighting();
+					//effect.LightingEnabled = true; // Turn on the lighting subsystem.
+					//effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
+					//effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
+					//effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
+					//effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
+					//effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird.
 
                     //Fog stuffs
                     /*effect.FogEnabled = true;
