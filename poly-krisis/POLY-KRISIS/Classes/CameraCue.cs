@@ -14,13 +14,18 @@ namespace poly_krisis {
 	 */
 	public class CameraCue {
 		public Vector3 pos, look;
+		public float speed;
+		//Time to wait at this cue in milliseconds
+		public int waitMS;
 
 		/*
 		 * Create a camera cue, giving a position and look direction
 		 */
-		public CameraCue(Vector3 p, Vector3 l) {
+		public CameraCue(Vector3 p, Vector3 l, float s, int wait = 0) {
 			pos = p;
 			look = l;
+			speed = s;
+			waitMS = wait;
 		}
 	}
 }
