@@ -39,7 +39,6 @@ namespace poly_krisis {
 				//Say we've arrived if we're close enough
 				if ((currentCue.pos - cues.First().pos).LengthSquared() < 0.15
 					&& (currentCue.look - cues.First().look).LengthSquared() < 0.15) {
-						Console.WriteLine("Arrived");
 						arrived = true;
 				}
 
@@ -47,9 +46,7 @@ namespace poly_krisis {
 			}
 			else if (cues.Count != 0) {
 				waitElapsed += time.ElapsedGameTime.Milliseconds;
-				Console.WriteLine("Waiting");
 				if (waitElapsed > cues.First().waitMS) {
-					Console.WriteLine("Removing cue");
 					cues.RemoveAt(0);
 					arrived = false;
 					waitElapsed = 0;

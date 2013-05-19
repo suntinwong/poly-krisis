@@ -46,7 +46,7 @@ namespace poly_krisis
 			camera = new DollyCam(camCue, proj);
 
 			//Set a location to move cam to
-			camera.AddCue(new CameraCue(new Vector3(0, 10, 10), new Vector3(1, 0, 0), 2.5f, 1000));
+			camera.AddCue(new CameraCue(new Vector3(0, 10, 10), new Vector3(1, 0, 0), 2.5f, 2000));
 			camera.AddCue(new CameraCue(new Vector3(0, 20, 0), new Vector3(0, -1, 0), 2.5f));
 
 			world *= Matrix.CreateScale(new Vector3(0.8f, 0.8f, 0.5f)) * Matrix.CreateRotationX(-(float)Math.PI / 2.0f);
