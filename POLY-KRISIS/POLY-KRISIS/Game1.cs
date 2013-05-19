@@ -25,6 +25,13 @@ namespace poly_krisis
         public Game1(){
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            //Set some basic stuff for my game
+            graphics.IsFullScreen = false; //set it to full screen no
+            graphics.PreferredBackBufferWidth = settings.Default.ScreenWidth;//set the screen dimension width
+            graphics.PreferredBackBufferHeight = settings.Default.ScreenHeight; //set the screen dimension height
+            this.Window.Title = "POLY-KRISIS"; //set window title
+
         }
 
         /// Allows the game to perform any initialization it needs to before starting to run.
