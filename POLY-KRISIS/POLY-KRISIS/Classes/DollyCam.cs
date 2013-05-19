@@ -34,8 +34,8 @@ namespace poly_krisis {
 			//UpdateView();
 			if (!arrived) {
 				float amt = lerpSpeed * (time.ElapsedGameTime.Milliseconds / 1000.0f);
-				currentCue.pos = Vector3.Lerp(currentCue.pos, nextCue.pos, amt);
-				currentCue.look = Vector3.Lerp(currentCue.look, nextCue.look, amt);
+				currentCue.pos = Vector3.SmoothStep(currentCue.pos, nextCue.pos, amt);
+				currentCue.look = Vector3.SmoothStep(currentCue.look, nextCue.look, amt);
 				UpdateView();
 				if ((currentCue.pos - nextCue.pos).LengthSquared() < 0.2
 					&& (currentCue.look - nextCue.look).LengthSquared() < 0.2) 
@@ -67,7 +67,13 @@ namespace poly_krisis {
         }
         public Vector3 Look {
             get { return currentCue.look; }
-			set { currentCue.look = value; }
+			set { 
+				currentCue.look = value;
+				currentCue.look.Normalize();
+			}
         }
+		public bool Arrived {
+			get { return arrived; }
+		}
     }
 }

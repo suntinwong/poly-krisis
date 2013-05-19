@@ -18,7 +18,7 @@ namespace poly_krisis
         SpriteBatch spriteBatch;
         DollyCam camera;
 
-        private Matrix world, world_rotated;
+        private Matrix world;
 
         public Game1(){
             graphics = new GraphicsDeviceManager(this);
@@ -38,7 +38,7 @@ namespace poly_krisis
         /// and initialize them as well.
         protected override void Initialize(){
             world = Matrix.CreateTranslation(0f, 0f, 0f);
-			CameraCue camCue = new CameraCue(new Vector3(0, 1, 50), new Vector3(0, 0, -1));
+			CameraCue camCue = new CameraCue(new Vector3(0, 5, 60), new Vector3(0, 0, -1));
 			Matrix proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45),
 				(float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight,
 				0.1f, 100.0f);
@@ -46,10 +46,10 @@ namespace poly_krisis
 			camera = new DollyCam(camCue, proj);
 
 			//Set a location to move cam to
-			camCue = new CameraCue(new Vector3(0, 20, 0), new Vector3(0, 0, 0));
-			camera.TransitionTo(camCue, 0.5f);
+			camCue = new CameraCue(new Vector3(0, 5, 10), new Vector3(1, 0, 0));
+			camera.TransitionTo(camCue, 3);
 
-			world *= Matrix.CreateRotationX(-(float)Math.PI / 2.0f) * Matrix.CreateScale(new Vector3(0.5f, 0.5f, 0.5f));
+			world *= Matrix.CreateScale(new Vector3(0.8f, 0.8f, 0.5f)) * Matrix.CreateRotationX(-(float)Math.PI / 2.0f);
             
             base.Initialize();
         }
@@ -80,6 +80,10 @@ namespace poly_krisis
 
             // TODO: Add your update logic here
 			camera.Update(gameTime);
+			if (camera.Arrived) {
+				CameraCue cue = new CameraCue(camera.Position, new Vector3(0, -0.5f, 1));
+				camera.TransitionTo(cue, 2);
+			}
 
             base.Update(gameTime);
         }
