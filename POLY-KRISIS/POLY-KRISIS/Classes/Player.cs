@@ -15,17 +15,22 @@ namespace poly_krisis
     public class Player{
 
         public Vector3 position; //current position of the player in the game world
+        public Vector2 crosshair_position; //position of the crosshair on the screen
         public float rotation; //player's current rotation
         public int health;      //players health
 
+
         //Private Variables and such 
+        private Texture2D crosshair; //player's aiming crosshair
         private Model model;    //player's 3D model
         private Kinect kinect; //kinect stuff
 
         //Constructor for the player class
-        public Player(Model newmodel) {
+        public Player(Model newmodel = null) {
 
             model = newmodel;
+            position = new Vector3(0,0,0);
+            crosshair_position = new Vector2(settings.Default.ScreenWidth/2,settings.Default.ScreenHeight/2);
 
             //Initailze kinect if needed
             if (settings.Default.EnableKinect) {
@@ -36,8 +41,8 @@ namespace poly_krisis
 
         //Loads content method 
         public void LoadContent(ContentManager Content) {
-            
-            
+            crosshair = Content.Load<Texture2D>("2D_Art/crosshair");
+          
         }
 
         //Unload content mehod
@@ -56,7 +61,9 @@ namespace poly_krisis
 
         //Draw mehtod
         public void Draw(SpriteBatch spritebatch) {
-
+            spritebatch.Begin();
+            spritebatch.Draw(crosshair,crosshair_position,Color.White);
+            spritebatch.End();
         }
 
         ///////////////////////////////////////////////
@@ -70,11 +77,12 @@ namespace poly_krisis
             if (kinect.player == null) return;
 
             Joint joint = kinect.player.Joints[JointType.HandRight];
-
             Vector2 jointPosition = new Vector2(joint.Position.X,joint.Position.Y);
-            //int JointIntersectionSize = 80;
-            //Rectangle rectangle = new Rectangle((int)jointPosition.X - (JointIntersectionSize / 2),(int)jointPosition.Y - (JointIntersectionSize / 2),JointIntersectionSize,JointIntersectionSize);
-            Console.WriteLine(jointPosition.X + "," + jointPosition.Y);
+            crosshair_position.X = (jointPosition.X * (settings.Default.ScreenWidth)) + settings.Default.ScreenWidth/2;
+            crosshair_position.Y = Math.Abs(jointPosition.Y * (settings.Default.ScreenHeight) - settings.Default.ScreenHeight/2);
+
+            Console.WriteLine(jointPosition.X + "," + jointPosition.Y + "||" + crosshair_position.X + "," + crosshair_position.Y);
+
 
         }
         

@@ -17,6 +17,7 @@ namespace poly_krisis
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         DollyCam camera;
+        Player player;
 
         private Matrix world;
 
@@ -44,6 +45,7 @@ namespace poly_krisis
 				0.1f, 100.0f);
 
 			camera = new DollyCam(camCue, proj);
+            player = new Player();
 
 			//Set a location to move cam to
 			camCue = new CameraCue(new Vector3(0, 5, 10), new Vector3(1, 0, 0));
@@ -60,8 +62,8 @@ namespace poly_krisis
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            player.LoadContent(Content);
 
-            // TODO: use this.Content to load your game content here
         }
 
         /// UnloadContent will be called once per game and is the place to unload
@@ -85,6 +87,8 @@ namespace poly_krisis
 				camera.TransitionTo(cue, 2);
 			}
 
+            player.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -96,7 +100,7 @@ namespace poly_krisis
             //Draw my test cube
 			//DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated);
 			DrawModel(Content.Load<Model>("Models/Level/level1"), world);
-            
+            player.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
