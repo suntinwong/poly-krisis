@@ -35,16 +35,16 @@ namespace poly_krisis {
 			if (!arrived) {
 				float amt = lerpSpeed * (time.ElapsedGameTime.Milliseconds / 1000.0f);
 				currentCue.pos = Vector3.Lerp(currentCue.pos, nextCue.pos, amt);
-				currentCue.target = Vector3.Lerp(currentCue.target, nextCue.target, amt);
+				currentCue.look = Vector3.Lerp(currentCue.look, nextCue.look, amt);
 				UpdateView();
 				if ((currentCue.pos - nextCue.pos).LengthSquared() < 0.2
-					&& (currentCue.target - nextCue.target).LengthSquared() < 0.2) 
+					&& (currentCue.look - nextCue.look).LengthSquared() < 0.2) 
 						arrived = true;
 			}
 		}
         //Update the viewing matrix
         public void UpdateView() {
-            view = Matrix.CreateLookAt(currentCue.pos, currentCue.target, Vector3.UnitY);
+            view = Matrix.CreateLookAt(currentCue.pos, currentCue.pos + currentCue.look, Vector3.UnitY);
         }
 		//Set the camera cue to transition too and the speed to do it at
 		public void TransitionTo(CameraCue nextCue, float speed) {
@@ -65,9 +65,9 @@ namespace poly_krisis {
             get { return currentCue.pos; }
 			set { currentCue.pos = value; }
         }
-        public Vector3 Target {
-            get { return currentCue.target; }
-			set { currentCue.target = value; }
+        public Vector3 Look {
+            get { return currentCue.look; }
+			set { currentCue.look = value; }
         }
     }
 }
