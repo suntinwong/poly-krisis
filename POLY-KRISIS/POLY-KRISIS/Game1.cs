@@ -16,22 +16,20 @@ namespace poly_krisis
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        DollyCam camera;
 
-        //For the 3d Camera stuffs
-        private Vector3 cameraPosition, cameraTarget;
-        private float fovAngle, aspectRatio, near, far;
-        private Matrix world, view, projection, world_rotated;
+        private Matrix world, world_rotated;
 
         public Game1(){
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
 
             //Set some basic stuff for my game
             graphics.IsFullScreen = false; //set it to full screen no
             graphics.PreferredBackBufferWidth = settings.Default.ScreenWidth;//set the screen dimension width
             graphics.PreferredBackBufferHeight = settings.Default.ScreenHeight; //set the screen dimension height
             this.Window.Title = "POLY-KRISIS"; //set window title
-
         }
 
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -39,24 +37,19 @@ namespace poly_krisis
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         protected override void Initialize(){
-
-            //Initialize 3d camera stuffs
-            cameraPosition = new Vector3(0.0f, 0.0f, 10.0f);
-            cameraTarget = new Vector3(0.0f, 0.0f, 0.0f);       // Look back at the origin
-            fovAngle = MathHelper.ToRadians(45);                // Set the FOV
-            aspectRatio = (float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight;
-            near = 0.1f;                                        // the near clipping plane distance
-            far = 100f;                                         // the far clipping plane distance
             world = Matrix.CreateTranslation(0f, 0f, 0f);
-            view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.UnitY);
-            projection = Matrix.CreatePerspectiveFieldOfView(fovAngle, aspectRatio, near, far);
+			CameraCue camCue = new CameraCue(new Vector3(0, 1, 50), new Vector3(0, 0, 0));
+			Matrix proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45),
+				(float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight,
+				0.1f, 100.0f);
 
+			camera = new DollyCam(camCue, proj);
 
-            //Rotate my cube model
-            world_rotated = world;
-            world_rotated = Matrix.CreateRotationY(MathHelper.ToRadians(45));
-            world_rotated *= Matrix.CreateRotationX(MathHelper.ToRadians(45));
-            world_rotated *= Matrix.CreateRotationZ(MathHelper.ToRadians(45));
+			//Set a location to move cam to
+			camCue = new CameraCue(new Vector3(0, 10, 0), new Vector3(0, 0, 0));
+			camera.TransitionTo(camCue, 0.5f);
+
+			world *= Matrix.CreateRotationX(-(float)Math.PI / 2.0f) * Matrix.CreateScale(new Vector3(0.5f, 0.5f, 0.5f));
             
             base.Initialize();
         }
@@ -86,6 +79,7 @@ namespace poly_krisis
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
             // TODO: Add your update logic here
+			camera.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -96,7 +90,8 @@ namespace poly_krisis
             GraphicsDevice.Clear(Color.Black);
 
             //Draw my test cube
-            DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated, view, projection);
+			//DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated);
+			DrawModel(Content.Load<Model>("Models/Level/level1"), world);
             
 
             base.Draw(gameTime);
@@ -107,18 +102,18 @@ namespace poly_krisis
         //////////////////////////////////////////////////////////
 
         //Draw the model
-        private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection){
+        private void DrawModel(Model model, Matrix world){
             foreach (ModelMesh mesh in model.Meshes){
                 foreach (BasicEffect effect in mesh.Effects){
                     
                     //Lighting stuffs
-                    effect.EnableDefaultLighting();
-                    effect.LightingEnabled = true; // Turn on the lighting subsystem.
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
-                    effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
-                    effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
-                    effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
-                    effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird.
+					//effect.EnableDefaultLighting();
+					//effect.LightingEnabled = true; // Turn on the lighting subsystem.
+					//effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
+					//effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
+					//effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
+					//effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
+					//effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird.
 
                     //Fog stuffs
                     /*effect.FogEnabled = true;
@@ -128,14 +123,11 @@ namespace poly_krisis
 
                     //Shows the model
                     effect.World = world;
-                    effect.View = view;
-                    effect.Projection = projection;
+                    effect.View = camera.View;
+                    effect.Projection = camera.Projection;
                 }
                 mesh.Draw();
             }
         }
-
-
-
     }
 }
