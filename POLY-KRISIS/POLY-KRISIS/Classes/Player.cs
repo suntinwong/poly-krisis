@@ -15,6 +15,8 @@ namespace poly_krisis
     public class Player{
 
         public Vector3 position; //current position of the player in the game world
+        public float rotation; //player's current rotation
+        public int health;      //players health
 
         //Private Variables and such 
         private Model model;    //player's 3D model
@@ -67,10 +69,15 @@ namespace poly_krisis
             //if there is no player on the screen
             if (kinect.player == null) return;
 
-            //kinect.player.Joints[JointType.   
-            
-        }
+            Joint joint = kinect.player.Joints[JointType.HandRight];
 
+            Vector2 jointPosition = new Vector2(joint.Position.X,joint.Position.Y);
+            //int JointIntersectionSize = 80;
+            //Rectangle rectangle = new Rectangle((int)jointPosition.X - (JointIntersectionSize / 2),(int)jointPosition.Y - (JointIntersectionSize / 2),JointIntersectionSize,JointIntersectionSize);
+            Console.WriteLine(jointPosition.X + "," + jointPosition.Y);
+
+        }
+        
 
         //handle all logic for pc controls
         private void do_pc_controls(){
