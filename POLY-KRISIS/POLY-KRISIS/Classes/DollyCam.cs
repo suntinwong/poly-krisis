@@ -11,12 +11,12 @@ namespace poly_krisis{
 
     public class DollyCam{
 
-        //basic constructor
+        //Constructor for dollycam
         public DollyCam(){
 
         }
 
-        //Set path for the doly
+        //Set path for the dolly
         public void SetPath(Queue<Vector3> q){
         
         }
