@@ -14,22 +14,44 @@ namespace poly_krisis {
      */
     public class DollyCam {
         private Matrix view, project;
-        private Vector3 position, target;
+		private CameraCue currentCue, nextCue;
+		private float lerpSpeed;
+		private bool arrived;
 
 		public DollyCam() {
-			view = new Matrix();
-			project = new Matrix();
+			arrived = true;
 		}
         //Constructor for dollycam
-        public DollyCam(Matrix view, Matrix project){
-            this.view = view;
+        public DollyCam(CameraCue cue, Matrix project){
+			this.currentCue = cue;
             this.project = project;
+			arrived = true;
+			UpdateView();
         }
-
+		//Update the camera motion
+		public void Update(GameTime time) {
+			//position += movedir * 2.0f * (time.ElapsedGameTime.Milliseconds / 1000.0f);
+			//UpdateView();
+			if (!arrived) {
+				float amt = lerpSpeed * (time.ElapsedGameTime.Milliseconds / 1000.0f);
+				currentCue.pos = Vector3.Lerp(currentCue.pos, nextCue.pos, amt);
+				currentCue.target = Vector3.Lerp(currentCue.target, nextCue.target, amt);
+				UpdateView();
+				if ((currentCue.pos - nextCue.pos).LengthSquared() < 0.2
+					&& (currentCue.target - nextCue.target).LengthSquared() < 0.2) 
+						arrived = true;
+			}
+		}
         //Update the viewing matrix
         public void UpdateView() {
-            view = Matrix.CreateLookAt(position, target, Vector3.UnitY);
+            view = Matrix.CreateLookAt(currentCue.pos, currentCue.target, Vector3.UnitY);
         }
+		//Set the camera cue to transition too and the speed to do it at
+		public void TransitionTo(CameraCue nextCue, float speed) {
+			this.nextCue = nextCue;
+			lerpSpeed = speed;
+			arrived = false;
+		}
 
         public Matrix View {
             get { return view; }
@@ -40,12 +62,12 @@ namespace poly_krisis {
             set { project = value; }
         }
         public Vector3 Position {
-            get { return position; }
-            set { position = value; }
+            get { return currentCue.pos; }
+			set { currentCue.pos = value; }
         }
         public Vector3 Target {
-            get { return target; }
-            set { target = value; }
+            get { return currentCue.target; }
+			set { currentCue.target = value; }
         }
     }
 }
