@@ -67,7 +67,8 @@ namespace poly_krisis
             //if there is no player on the screen
             if (kinect.player == null) return;
 
-            //kinect.player.Joints[JointType.
+            //kinect.player.Joints[JointType.   
+            
         }
 
 
