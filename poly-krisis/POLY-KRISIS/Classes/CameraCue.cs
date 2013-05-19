@@ -13,11 +13,14 @@ namespace poly_krisis {
 	 * be looking at
 	 */
 	public class CameraCue {
-		public Vector3 pos, target;
+		public Vector3 pos, look;
 
-		public CameraCue(Vector3 p, Vector3 t) {
+		/*
+		 * Create a camera cue, giving a position and look direction
+		 */
+		public CameraCue(Vector3 p, Vector3 l) {
 			pos = p;
-			target = t;
+			look = l;
 		}
 	}
 }
