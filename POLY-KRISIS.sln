@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POLY-KRISIS", "POLY-KRISIS\POLY-KRISIS\POLY-KRISIS.csproj", "{477CE77B-202B-4D88-9D9C-37308432DF3F}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "poly-krisis", "poly-krisis\poly-krisis\poly-krisis.csproj", "{06A0C60F-79D6-4809-9AC4-E7CC19F8F68E}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "POLY-KRISISContent", "POLY-KRISIS\POLY-KRISISContent\POLY-KRISISContent.contentproj", "{C52DC33E-A0AC-464C-9D5D-F2A1435403CD}"
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "poly-krisisContent", "poly-krisis\poly-krisisContent\poly-krisisContent.contentproj", "{554E3BC5-CF9B-487A-A36A-106E47E9D19E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,12 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{477CE77B-202B-4D88-9D9C-37308432DF3F}.Debug|x86.ActiveCfg = Debug|x86
-		{477CE77B-202B-4D88-9D9C-37308432DF3F}.Debug|x86.Build.0 = Debug|x86
-		{477CE77B-202B-4D88-9D9C-37308432DF3F}.Release|x86.ActiveCfg = Release|x86
-		{477CE77B-202B-4D88-9D9C-37308432DF3F}.Release|x86.Build.0 = Release|x86
-		{C52DC33E-A0AC-464C-9D5D-F2A1435403CD}.Debug|x86.ActiveCfg = Debug|x86
-		{C52DC33E-A0AC-464C-9D5D-F2A1435403CD}.Release|x86.ActiveCfg = Release|x86
+		{06A0C60F-79D6-4809-9AC4-E7CC19F8F68E}.Debug|x86.ActiveCfg = Debug|x86
+		{06A0C60F-79D6-4809-9AC4-E7CC19F8F68E}.Debug|x86.Build.0 = Debug|x86
+		{06A0C60F-79D6-4809-9AC4-E7CC19F8F68E}.Release|x86.ActiveCfg = Release|x86
+		{06A0C60F-79D6-4809-9AC4-E7CC19F8F68E}.Release|x86.Build.0 = Release|x86
+		{554E3BC5-CF9B-487A-A36A-106E47E9D19E}.Debug|x86.ActiveCfg = Debug|x86
+		{554E3BC5-CF9B-487A-A36A-106E47E9D19E}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 using System;
 
-namespace POLY_KRISIS {
+namespace poly_krisis
+{
 #if WINDOWS || XBOX
     static class Program
     {

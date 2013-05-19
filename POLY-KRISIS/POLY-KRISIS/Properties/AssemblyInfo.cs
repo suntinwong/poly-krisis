@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("POLY-KRISIS")]
-[assembly: AssemblyProduct("POLY-KRISIS")]
+[assembly: AssemblyTitle("poly-krisis")]
+[assembly: AssemblyProduct("poly-krisis")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2013")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // On Windows, the following GUID is for the ID of the typelib if this
 // project is exposed to COM. On other platforms, it unique identifies the
 // title storage container when deploying this assembly to the device.
-[assembly: Guid("d624c25b-33ee-4d18-997c-e2c6d4f0355f")]
+[assembly: Guid("62f81802-a333-44dc-9074-b7962cae9bbd")]
 
 // Version information for an assembly consists of the following four values:
 //
