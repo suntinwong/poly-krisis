@@ -57,6 +57,7 @@ namespace poly_krisis
             world_rotated = Matrix.CreateRotationY(MathHelper.ToRadians(45));
             world_rotated *= Matrix.CreateRotationX(MathHelper.ToRadians(45));
             world_rotated *= Matrix.CreateRotationZ(MathHelper.ToRadians(45));
+            
             base.Initialize();
         }
 
