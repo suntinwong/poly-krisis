@@ -22,8 +22,7 @@ namespace poly_krisis
         private float fovAngle, aspectRatio, near, far;
         private Matrix world, view, projection, world_rotated;
 
-        public Game1()
-        {
+        public Game1(){
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -37,20 +36,20 @@ namespace poly_krisis
             //Initialize 3d camera stuffs
             cameraPosition = new Vector3(0.0f, 0.0f, 10.0f);
             cameraTarget = new Vector3(0.0f, 0.0f, 0.0f);       // Look back at the origin
-            fovAngle = MathHelper.ToRadians(45);                // convert 45 degrees to radians
-            aspectRatio = 800f / 480f;                          // graphics.PreferredBackBufferWidth / graphics.PreferredBackBufferHeight;
+            fovAngle = MathHelper.ToRadians(45);                // Set the FOV
+            aspectRatio = (float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight;
             near = 0.1f;                                        // the near clipping plane distance
             far = 100f;                                         // the far clipping plane distance
             world = Matrix.CreateTranslation(0f, 0f, 0f);
             view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.UnitY);
             projection = Matrix.CreatePerspectiveFieldOfView(fovAngle, aspectRatio, near, far);
 
+
             //Rotate my cube model
             world_rotated = world;
             world_rotated = Matrix.CreateRotationY(MathHelper.ToRadians(45));
             world_rotated *= Matrix.CreateRotationX(MathHelper.ToRadians(45));
             world_rotated *= Matrix.CreateRotationZ(MathHelper.ToRadians(45));
-
             base.Initialize();
         }
 
@@ -76,8 +75,7 @@ namespace poly_krisis
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
             // TODO: Add your update logic here
 
@@ -115,10 +113,10 @@ namespace poly_krisis
                     effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird.
 
                     //Fog stuffs
-                    effect.FogEnabled = true;
+                    /*effect.FogEnabled = true;
                     effect.FogColor = Color.CornflowerBlue.ToVector3(); // For best results, ake this color whatever your background is.
                     effect.FogStart = 9.75f;
-                    effect.FogEnd = 10.25f;
+                    effect.FogEnd = 10.25f;*/
 
                     //Shows the model
                     effect.World = world;
