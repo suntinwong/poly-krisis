@@ -9,15 +9,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace poly_krisis{
 
-    public class DolyCam{
+    public class DollyCam{
 
         //basic constructor
-        public DolyCam(){
+        public DollyCam(){
 
         }
 
         //Set path for the doly
         public void SetPath(Queue<Vector3> q){
+        
         }
 
     }
