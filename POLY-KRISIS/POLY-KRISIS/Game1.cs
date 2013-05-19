@@ -16,22 +16,20 @@ namespace poly_krisis
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        DollyCam camera;
 
-        //For the 3d Camera stuffs
-        private Vector3 cameraPosition, cameraTarget;
-        private float fovAngle, aspectRatio, near, far;
-        private Matrix world, view, projection, world_rotated;
+        private Matrix world, world_rotated;
 
         public Game1(){
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+			camera = new DollyCam();
 
             //Set some basic stuff for my game
             graphics.IsFullScreen = false; //set it to full screen no
             graphics.PreferredBackBufferWidth = settings.Default.ScreenWidth;//set the screen dimension width
             graphics.PreferredBackBufferHeight = settings.Default.ScreenHeight; //set the screen dimension height
             this.Window.Title = "POLY-KRISIS"; //set window title
-
         }
 
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -39,19 +37,15 @@ namespace poly_krisis
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         protected override void Initialize(){
-
-            //Initialize 3d camera stuffs
-            cameraPosition = new Vector3(0.0f, 0.0f, 10.0f);
-            cameraTarget = new Vector3(0.0f, 0.0f, 0.0f);       // Look back at the origin
-            fovAngle = MathHelper.ToRadians(45);                // Set the FOV
-            aspectRatio = (float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight;
-            near = 0.1f;                                        // the near clipping plane distance
-            far = 100f;                                         // the far clipping plane distance
             world = Matrix.CreateTranslation(0f, 0f, 0f);
-            view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.UnitY);
-            projection = Matrix.CreatePerspectiveFieldOfView(fovAngle, aspectRatio, near, far);
 
-
+			camera.Position = new Vector3(0.0f, 0.0f, 10.0f);
+			camera.Target = new Vector3(0.0f, 0.0f, 0.0f);
+			camera.UpdateView();
+			camera.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 
+				(float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight, 
+				0.1f, 100.0f);
+ 
             //Rotate my cube model
             world_rotated = world;
             world_rotated = Matrix.CreateRotationY(MathHelper.ToRadians(45));
@@ -96,7 +90,7 @@ namespace poly_krisis
             GraphicsDevice.Clear(Color.Black);
 
             //Draw my test cube
-            DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated, view, projection);
+            DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated);
             
 
             base.Draw(gameTime);
@@ -107,7 +101,7 @@ namespace poly_krisis
         //////////////////////////////////////////////////////////
 
         //Draw the model
-        private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection){
+        private void DrawModel(Model model, Matrix world){
             foreach (ModelMesh mesh in model.Meshes){
                 foreach (BasicEffect effect in mesh.Effects){
                     
@@ -128,14 +122,11 @@ namespace poly_krisis
 
                     //Shows the model
                     effect.World = world;
-                    effect.View = view;
-                    effect.Projection = projection;
+                    effect.View = camera.View;
+                    effect.Projection = camera.Projection;
                 }
                 mesh.Draw();
             }
         }
-
-
-
     }
 }
