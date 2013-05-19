@@ -31,19 +31,19 @@ namespace poly_krisis
         /// This is where it can query for any required services and load any non-graphic
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
-        protected override void Initialize()
-        {
+        protected override void Initialize(){
+
             //Initialize 3d camera stuffs
-            cameraPosition = new Vector3(30.0f, 30.0f, 30.0f);
+            cameraPosition = new Vector3(0.0f, 0.0f, 10.0f);
             cameraTarget = new Vector3(0.0f, 0.0f, 0.0f);       // Look back at the origin
             fovAngle = MathHelper.ToRadians(45);                // convert 45 degrees to radians
-            aspectRatio = graphics.PreferredBackBufferWidth / graphics.PreferredBackBufferHeight;
-            near = 0.01f;                                       // the near clipping plane distance
+            aspectRatio = 800f / 480f; // graphics.PreferredBackBufferWidth / graphics.PreferredBackBufferHeight;
+            near = 0.1f;                                       // the near clipping plane distance
             far = 100f;                                          // the far clipping plane distance
-            world = Matrix.CreateTranslation(10.0f, 0.0f, 10.0f);
-            view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.Up);
+            world = Matrix.CreateTranslation(0f, 0f, 0f);
+            view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.UnitY);
             projection = Matrix.CreatePerspectiveFieldOfView(fovAngle, aspectRatio, near, far);
-
+            
             base.Initialize();
         }
 
@@ -81,8 +81,8 @@ namespace poly_krisis
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
+            DrawModel(Content.Load<Model>("Models/Cube/cube"), world, view, projection);
+            
 
             base.Draw(gameTime);
         }
@@ -92,17 +92,13 @@ namespace poly_krisis
         //////////////////////////////////////////////////////////
 
         //Draw the model
-        private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
-        {
-            foreach (ModelMesh mesh in model.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
+        private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection){
+            foreach (ModelMesh mesh in model.Meshes){
+                foreach (BasicEffect effect in mesh.Effects){
                     effect.World = world;
                     effect.View = view;
                     effect.Projection = projection;
                 }
-
                 mesh.Draw();
             }
         }
