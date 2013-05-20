@@ -17,8 +17,9 @@ namespace poly_krisis
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         DollyCam camera;
+        Player player;
 
-        private Matrix world, world_rotated;
+        private Matrix world;
 
         public Game1(){
             graphics = new GraphicsDeviceManager(this);
@@ -38,18 +39,19 @@ namespace poly_krisis
         /// and initialize them as well.
         protected override void Initialize(){
             world = Matrix.CreateTranslation(0f, 0f, 0f);
-			CameraCue camCue = new CameraCue(new Vector3(0, 1, 50), new Vector3(0, 0, -1));
+			CameraCue camCue = new CameraCue(new Vector3(0, 5, 60), new Vector3(0, 0, -1), 0);
 			Matrix proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45),
 				(float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight,
 				0.1f, 100.0f);
 
 			camera = new DollyCam(camCue, proj);
+            player = new Player();
 
 			//Set a location to move cam to
-			camCue = new CameraCue(new Vector3(0, 20, 0), new Vector3(0, 0, 0));
-			camera.TransitionTo(camCue, 0.5f);
+			camera.AddCue(new CameraCue(new Vector3(0, 10, 10), new Vector3(1, 0, 0), 2.5f, 2000));
+			camera.AddCue(new CameraCue(new Vector3(0, 20, 0), new Vector3(0, -1, 0), 2.5f));
 
-			world *= Matrix.CreateRotationX(-(float)Math.PI / 2.0f) * Matrix.CreateScale(new Vector3(0.5f, 0.5f, 0.5f));
+			world *= Matrix.CreateScale(new Vector3(0.8f, 0.8f, 0.5f)) * Matrix.CreateRotationX(-(float)Math.PI / 2.0f);
             
             base.Initialize();
         }
@@ -60,8 +62,8 @@ namespace poly_krisis
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            player.LoadContent(Content);
 
-            // TODO: use this.Content to load your game content here
         }
 
         /// UnloadContent will be called once per game and is the place to unload
@@ -80,6 +82,12 @@ namespace poly_krisis
 
             // TODO: Add your update logic here
 			camera.Update(gameTime);
+			//if (camera.Arrived) {
+			//    CameraCue cue = new CameraCue(camera.Position, new Vector3(0, -0.5f, 1));
+			//    camera.TransitionTo(cue, 2);
+			//}
+
+            player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -92,7 +100,7 @@ namespace poly_krisis
             //Draw my test cube
 			//DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated);
 			DrawModel(Content.Load<Model>("Models/Level/level1"), world);
-            
+            player.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
