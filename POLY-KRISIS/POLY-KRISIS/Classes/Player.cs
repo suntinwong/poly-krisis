@@ -27,7 +27,7 @@ namespace poly_krisis
 
         //Constructor for the player class
         public Player(Model newmodel = null) {
-
+            
             model = newmodel;
             position = new Vector3(0,0,0);
             crosshair_position = new Vector2(settings.Default.ScreenWidth/2,settings.Default.ScreenHeight/2);
@@ -53,7 +53,6 @@ namespace poly_krisis
         //Update mehtod
         public void Update(GameTime Gametime) { 
 
-
             //Do logic for player's controls and act accordinly
             if (settings.Default.EnableKinect) do_kinect_controls();
             else do_pc_controls();
@@ -61,9 +60,8 @@ namespace poly_krisis
 
         //Draw mehtod
         public void Draw(SpriteBatch spritebatch) {
-            spritebatch.Begin();
+            
             spritebatch.Draw(crosshair,crosshair_position,Color.White);
-            spritebatch.End();
         }
 
         ///////////////////////////////////////////////
@@ -78,11 +76,9 @@ namespace poly_krisis
 
             Joint joint = kinect.player.Joints[JointType.HandRight];
             Vector2 jointPosition = new Vector2(joint.Position.X,joint.Position.Y);
-            crosshair_position.X = (jointPosition.X * (settings.Default.ScreenWidth)) + settings.Default.ScreenWidth/2;
-            crosshair_position.Y = Math.Abs(jointPosition.Y * (settings.Default.ScreenHeight) - settings.Default.ScreenHeight/2);
-
+            crosshair_position.X = Math.Abs((jointPosition.X *2)* (settings.Default.ScreenWidth) + settings.Default.ScreenWidth/2);
+            crosshair_position.Y = Math.Abs((jointPosition.Y *2 )* (settings.Default.ScreenHeight) - settings.Default.ScreenHeight/2);
             Console.WriteLine(jointPosition.X + "," + jointPosition.Y + "||" + crosshair_position.X + "," + crosshair_position.Y);
-
 
         }
         

@@ -39,13 +39,14 @@ namespace poly_krisis
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         protected override void Initialize(){
+
 			CameraCue camCue = new CameraCue(new Vector3(0, 2, 23), new Vector3(0, 0, -1), 0);
 			Matrix proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45),
 				(float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight,
 				0.1f, 100.0f);
 
 			camera = new DollyCam(camCue, proj);
-			//BuildCamPath();
+            BuildCamPath();
             player = new Player();
 
 			world = Matrix.CreateTranslation(0f, 0f, 0f);
@@ -55,17 +56,18 @@ namespace poly_krisis
 
             base.Initialize();
         }
-		//Build up the camera cue path
-		private void BuildCamPath() {
-			camera.AddCue(new CameraCue(new Vector3(0, 2, 15), new Vector3(0, 0, -1), 3));
-			camera.AddCue(new CameraCue(new Vector3(0, 2, 9), new Vector3(-1, 0, 0), 3, 5000));
-			camera.AddCue(new CameraCue(new Vector3(-5, 2, 9), new Vector3(-1, 0, 0), 3, 1000));
-			camera.AddCue(new CameraCue(new Vector3(2, 2, 9), new Vector3(0, 0, 1), 4, 0));
-			camera.AddCue(new CameraCue(new Vector3(5, 2, 9), new Vector3(1, 0, 0), 4, 0));
-			camera.AddCue(new CameraCue(new Vector3(10, 2, 9), new Vector3(1, 0, 0), 3, 2000));
-			camera.AddCue(new CameraCue(new Vector3(10, 2, 9), -Vector3.UnitZ, 4));
-			camera.AddCue(new CameraCue(new Vector3(12, 2, 9), -Vector3.UnitZ, 3));
-		}
+
+        //Build up the camera cue path
+ -		private void BuildCamPath() {
+ 			camera.AddCue(new CameraCue(new Vector3(0, 2, 15), new Vector3(0, 0, -1), 3));
+ 			camera.AddCue(new CameraCue(new Vector3(0, 2, 9), new Vector3(-1, 0, 0), 3, 5000));
+ 			camera.AddCue(new CameraCue(new Vector3(-5, 2, 9), new Vector3(-1, 0, 0), 3, 1000));
+ 			camera.AddCue(new CameraCue(new Vector3(2, 2, 9), new Vector3(0, 0, 1), 4, 0));
+ 			camera.AddCue(new CameraCue(new Vector3(5, 2, 9), new Vector3(1, 0, 0), 4, 0));
+ 			camera.AddCue(new CameraCue(new Vector3(10, 2, 9), new Vector3(1, 0, 0), 3, 2000));
+ 			camera.AddCue(new CameraCue(new Vector3(10, 2, 9), -Vector3.UnitZ, 4));
+ 			camera.AddCue(new CameraCue(new Vector3(12, 2, 9), -Vector3.UnitZ, 3));
+ 		}
 
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
