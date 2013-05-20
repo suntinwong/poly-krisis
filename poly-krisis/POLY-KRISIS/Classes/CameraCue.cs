@@ -17,15 +17,29 @@ namespace poly_krisis {
 		public float speed;
 		//Time to wait at this cue in milliseconds
 		public int waitMS;
+		//Scene callback type to tell us if the scene is done
+		public delegate bool CueDone(int elapsedMS);
+		CueDone isDone;
 
 		/*
-		 * Create a camera cue, giving a position and look direction
+		 * Create a camera cue, giving a position, look direction, speed to 
+		 * travel too and time to wait
 		 */
 		public CameraCue(Vector3 p, Vector3 l, float s, int wait = 0) {
 			pos = p;
 			look = l;
 			speed = s;
 			waitMS = wait;
+		}
+		/*
+		 * Create a camera cue giving a position, look direction, 
+		 * speed to travel too and scene signal to wait for
+		 */
+		public CameraCue(Vector3 p, Vector3 l, float s, CueDone done) {
+			pos = p;
+			look = l;
+			speed = s;
+			isDone = done;
 		}
 	}
 }
