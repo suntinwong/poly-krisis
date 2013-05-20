@@ -49,7 +49,7 @@ namespace poly_krisis {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool EnableKinect {
             get {
                 return ((bool)(this["EnableKinect"]));

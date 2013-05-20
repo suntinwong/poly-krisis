@@ -104,10 +104,17 @@ namespace poly_krisis
         {
             GraphicsDevice.Clear(Color.Black);
 
+            //Before you draw anything in 3D you will probably want to reset these states:
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
             //Draw my test cube
 			DrawModel(level, world);
-			//TODO: Why does this screw up the ground position?
-			//player.Draw(spriteBatch);
+
+            //draw everyting in 2d now
+            spriteBatch.Begin();
+			player.Draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
