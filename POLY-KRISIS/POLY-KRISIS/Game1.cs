@@ -58,7 +58,7 @@ namespace poly_krisis
         }
 
         //Build up the camera cue path
- 		private void BuildCamPath() {
+		private void BuildCamPath() {
  			camera.AddCue(new CameraCue(new Vector3(0, 2, 15), new Vector3(0, 0, -1), 3));
  			camera.AddCue(new CameraCue(new Vector3(0, 2, 9), new Vector3(-1, 0, 0), 3, 5000));
  			camera.AddCue(new CameraCue(new Vector3(-5, 2, 9), new Vector3(-1, 0, 0), 3, 1000));
@@ -104,10 +104,18 @@ namespace poly_krisis
         {
             GraphicsDevice.Clear(Color.Black);
 
+            //Before you draw anything in 3D you will probably want to reset these states:
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap; //Depending on your 3D content, you may also want to set:
+
             //Draw my test cube
 			DrawModel(level, world);
-			//TODO: Why does this screw up the ground position?
-			//player.Draw(spriteBatch);
+
+            //draw everyting in 2d now
+            spriteBatch.Begin();
+			player.Draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
