@@ -18,6 +18,7 @@ namespace poly_krisis
         SpriteBatch spriteBatch;
         DollyCam camera;
         Player player;
+		Model level;
 
         private Matrix world;
 
@@ -49,7 +50,9 @@ namespace poly_krisis
             player = new Player();
 
 			world *= Matrix.CreateScale(new Vector3(0.8f, 0.8f, 0.5f)) * Matrix.CreateRotationX(-(float)Math.PI / 2.0f);
-            
+
+			level = Content.Load<Model>("Models/Level/level1");
+
             base.Initialize();
         }
 		//Build up the camera cue path
@@ -90,11 +93,6 @@ namespace poly_krisis
 
             // TODO: Add your update logic here
 			camera.Update(gameTime);
-			//if (camera.Arrived) {
-			//    CameraCue cue = new CameraCue(camera.Position, new Vector3(0, -0.5f, 1));
-			//    camera.TransitionTo(cue, 2);
-			//}
-
             player.Update(gameTime);
 
             base.Update(gameTime);
@@ -107,7 +105,7 @@ namespace poly_krisis
 
             //Draw my test cube
 			//DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated);
-			DrawModel(Content.Load<Model>("Models/Level/level1"), world);
+			DrawModel(level, world);
             player.Draw(spriteBatch);
 
             base.Draw(gameTime);
