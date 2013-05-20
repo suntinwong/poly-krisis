@@ -18,6 +18,7 @@ namespace poly_krisis
         SpriteBatch spriteBatch;
         DollyCam camera;
         Player player;
+		Model level;
 
         private Matrix world;
 
@@ -38,23 +39,35 @@ namespace poly_krisis
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         protected override void Initialize(){
-            world = Matrix.CreateTranslation(0f, 0f, 0f);
-			CameraCue camCue = new CameraCue(new Vector3(0, 5, 60), new Vector3(0, 0, -1), 0);
+
+			CameraCue camCue = new CameraCue(new Vector3(0, 2, 23), new Vector3(0, 0, -1), 0);
 			Matrix proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45),
 				(float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight,
 				0.1f, 100.0f);
 
 			camera = new DollyCam(camCue, proj);
+            BuildCamPath();
             player = new Player();
 
-			//Set a location to move cam to
-			camera.AddCue(new CameraCue(new Vector3(0, 10, 10), new Vector3(1, 0, 0), 2.5f, 2000));
-			camera.AddCue(new CameraCue(new Vector3(0, 20, 0), new Vector3(0, -1, 0), 2.5f));
-
+			world = Matrix.CreateTranslation(0f, 0f, 0f);
 			world *= Matrix.CreateScale(new Vector3(0.8f, 0.8f, 0.5f)) * Matrix.CreateRotationX(-(float)Math.PI / 2.0f);
-            
+
+			level = Content.Load<Model>("Models/Level/level1");
+
             base.Initialize();
         }
+
+        //Build up the camera cue path
+ -		private void BuildCamPath() {
+ 			camera.AddCue(new CameraCue(new Vector3(0, 2, 15), new Vector3(0, 0, -1), 3));
+ 			camera.AddCue(new CameraCue(new Vector3(0, 2, 9), new Vector3(-1, 0, 0), 3, 5000));
+ 			camera.AddCue(new CameraCue(new Vector3(-5, 2, 9), new Vector3(-1, 0, 0), 3, 1000));
+ 			camera.AddCue(new CameraCue(new Vector3(2, 2, 9), new Vector3(0, 0, 1), 4, 0));
+ 			camera.AddCue(new CameraCue(new Vector3(5, 2, 9), new Vector3(1, 0, 0), 4, 0));
+ 			camera.AddCue(new CameraCue(new Vector3(10, 2, 9), new Vector3(1, 0, 0), 3, 2000));
+ 			camera.AddCue(new CameraCue(new Vector3(10, 2, 9), -Vector3.UnitZ, 4));
+ 			camera.AddCue(new CameraCue(new Vector3(12, 2, 9), -Vector3.UnitZ, 3));
+ 		}
 
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -80,14 +93,8 @@ namespace poly_krisis
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
-            // TODO: Add your update logic here
 			camera.Update(gameTime);
-			//if (camera.Arrived) {
-			//    CameraCue cue = new CameraCue(camera.Position, new Vector3(0, -0.5f, 1));
-			//    camera.TransitionTo(cue, 2);
-			//}
-
-            player.Update(gameTime);
+			player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -98,9 +105,9 @@ namespace poly_krisis
             GraphicsDevice.Clear(Color.Black);
 
             //Draw my test cube
-			//DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated);
-			DrawModel(Content.Load<Model>("Models/Level/level1"), world);
-            player.Draw(spriteBatch);
+			DrawModel(level, world);
+			//TODO: Why does this screw up the ground position?
+			//player.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
