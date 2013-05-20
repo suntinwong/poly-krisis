@@ -55,6 +55,9 @@ namespace poly_krisis {
 		}
         //Update the viewing matrix
         public void UpdateView() {
+			//This isn't so great because we aren't really translating, we're lerping so we
+			//don't know how much to rotate the up vector. Should probably change to do actual matrix
+			//operations to move the camera
             view = Matrix.CreateLookAt(currentCue.pos, currentCue.pos + currentCue.look, Vector3.UnitY);
         }
 		//Set the camera cue to transition too and the speed to do it at
