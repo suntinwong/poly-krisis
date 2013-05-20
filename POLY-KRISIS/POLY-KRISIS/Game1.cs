@@ -107,6 +107,7 @@ namespace poly_krisis
             //Before you draw anything in 3D you will probably want to reset these states:
             GraphicsDevice.BlendState = BlendState.Opaque;
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap; //Depending on your 3D content, you may also want to set:
 
             //Draw my test cube
 			DrawModel(level, world);
