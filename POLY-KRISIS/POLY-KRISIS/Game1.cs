@@ -58,7 +58,7 @@ namespace poly_krisis
         }
 
         //Build up the camera cue path
- -		private void BuildCamPath() {
+		private void BuildCamPath() {
  			camera.AddCue(new CameraCue(new Vector3(0, 2, 15), new Vector3(0, 0, -1), 3));
  			camera.AddCue(new CameraCue(new Vector3(0, 2, 9), new Vector3(-1, 0, 0), 3, 5000));
  			camera.AddCue(new CameraCue(new Vector3(-5, 2, 9), new Vector3(-1, 0, 0), 3, 1000));
