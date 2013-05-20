@@ -41,7 +41,7 @@ namespace poly_krisis
 
         //Loads content method 
         public void LoadContent(ContentManager Content) {
-            crosshair = Content.Load<Texture2D>("2D_Art/crosshair");
+            crosshair = Content.Load<Texture2D>("2D_Art/crosshair"); //load the crosshair texture
           
         }
 
@@ -74,17 +74,27 @@ namespace poly_krisis
             //if there is no player on the screen
             if (kinect.player == null) return;
 
+            //get and set the position of the crosshair
             Joint joint = kinect.player.Joints[JointType.HandRight];
             Vector2 jointPosition = new Vector2(joint.Position.X,joint.Position.Y);
             crosshair_position.X = Math.Abs((jointPosition.X *2)* (settings.Default.ScreenWidth) + settings.Default.ScreenWidth/2);
             crosshair_position.Y = Math.Abs((jointPosition.Y *2 )* (settings.Default.ScreenHeight) - settings.Default.ScreenHeight/2);
             Console.WriteLine(jointPosition.X + "," + jointPosition.Y + "||" + crosshair_position.X + "," + crosshair_position.Y);
 
+            //figure out if the player is shooting or not
+
         }
         
 
         //handle all logic for pc controls
         private void do_pc_controls(){
+
+            //get and set the position of the crosshair
+            MouseState mousestate = Mouse.GetState();
+            crosshair_position.X = mousestate.X;
+            crosshair_position.Y = mousestate.Y;
+
+            //
 
         }
     }
