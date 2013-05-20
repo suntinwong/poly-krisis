@@ -39,7 +39,6 @@ namespace poly_krisis
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         protected override void Initialize(){
-            world = Matrix.CreateTranslation(0f, 0f, 0f);
 			CameraCue camCue = new CameraCue(new Vector3(0, 2, 23), new Vector3(0, 0, -1), 0);
 			Matrix proj = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45),
 				(float)settings.Default.ScreenWidth / (float)settings.Default.ScreenHeight,
@@ -49,6 +48,7 @@ namespace poly_krisis
 			//BuildCamPath();
             player = new Player();
 
+			world = Matrix.CreateTranslation(0f, 0f, 0f);
 			world *= Matrix.CreateScale(new Vector3(0.8f, 0.8f, 0.5f)) * Matrix.CreateRotationX(-(float)Math.PI / 2.0f);
 
 			level = Content.Load<Model>("Models/Level/level1");
@@ -91,9 +91,8 @@ namespace poly_krisis
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
-            // TODO: Add your update logic here
 			camera.Update(gameTime);
-            player.Update(gameTime);
+			player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -104,9 +103,9 @@ namespace poly_krisis
             GraphicsDevice.Clear(Color.Black);
 
             //Draw my test cube
-			//DrawModel(Content.Load<Model>("Models/Cube/cube"), world_rotated);
 			DrawModel(level, world);
-            player.Draw(spriteBatch);
+			//TODO: Why does this screw up the ground position?
+			//player.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
