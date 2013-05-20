@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\CameraCue.cs" />
+    <Compile Include="Classes\ColMan.cs" />
     <Compile Include="Classes\DollyCam.cs" />
     <Compile Include="Classes\Enemy.cs" />
     <Compile Include="Classes\Kinect.cs" />
